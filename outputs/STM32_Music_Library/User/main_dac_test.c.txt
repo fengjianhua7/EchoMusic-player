@@ -1,0 +1,65 @@
+#include "stm32f10x.h"
+
+/* 32 samples, 32 kHz trigger: 1 kHz sine, deliberately low amplitude. */
+static const uint16_t tone[32] = {
+2048,2098,2146,2190,2229,2261,2285,2299,
+2304,2299,2285,2261,2229,2190,2146,2098,
+2048,1998,1950,1906,1867,1835,1811,1797,
+1792,1797,1811,1835,1867,1906,1950,1998
+};
+
+int main(void)
+{
+    GPIO_InitTypeDef gpio;
+    DAC_InitTypeDef dac;
+    DMA_InitTypeDef dma;
+    TIM_TimeBaseInitTypeDef timer;
+    RCC_ClocksTypeDef clocks;
+    uint32_t timer_clock;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC | RCC_APB1Periph_TIM6, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
+    GPIO_StructInit(&gpio);
+    gpio.GPIO_Pin = GPIO_Pin_4;
+    gpio.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(GPIOA, &gpio);
+
+    TIM_Cmd(TIM6, DISABLE);
+    TIM_TimeBaseStructInit(&timer);
+    RCC_GetClocksFreq(&clocks);
+    timer_clock = clocks.PCLK1_Frequency;
+    if (clocks.PCLK1_Frequency != clocks.HCLK_Frequency)
+        timer_clock *= 2;
+    timer.TIM_Prescaler = 0;
+    timer.TIM_Period = (uint16_t)(timer_clock / 32000UL - 1UL);
+    TIM_TimeBaseInit(TIM6, &timer);
+    TIM_SelectOutputTrigger(TIM6, TIM_TRGOSource_Update);
+
+    DAC_StructInit(&dac);
+    dac.DAC_Trigger = DAC_Trigger_T6_TRGO;
+    dac.DAC_WaveGeneration = DAC_WaveGeneration_None;
+    dac.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+    DAC_Init(DAC_Channel_1, &dac);
+    DAC_SetChannel1Data(DAC_Align_12b_R, 2048);
+
+    DMA_DeInit(DMA2_Channel3);
+    DMA_StructInit(&dma);
+    dma.DMA_PeripheralBaseAddr = (uint32_t)&DAC->DHR12R1;
+    dma.DMA_MemoryBaseAddr = (uint32_t)tone;
+    dma.DMA_DIR = DMA_DIR_PeripheralDST;
+    dma.DMA_BufferSize = 32;
+    dma.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    dma.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    dma.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+    dma.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+    dma.DMA_Mode = DMA_Mode_Circular;
+    dma.DMA_Priority = DMA_Priority_High;
+    dma.DMA_M2M = DMA_M2M_Disable;
+    DMA_Init(DMA2_Channel3, &dma);
+    DMA_Cmd(DMA2_Channel3, ENABLE);
+    DAC_Cmd(DAC_Channel_1, ENABLE);
+    DAC_DMACmd(DAC_Channel_1, ENABLE);
+    TIM_Cmd(TIM6, ENABLE);
+    while (1) { __WFI(); }
+}

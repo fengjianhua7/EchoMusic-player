@@ -1,0 +1,9 @@
+v22.0，2026-11-03
+STM32：ARMCC V5.05，0 Error(s), 0 Warning(s)
+Code=38876 RO-data=422224 RW-data=320 ZI-data=38640
+ESP32：Arduino core 3.3.12，ESP32S3 Dev Module，16MB/OPI PSRAM/Huge APP
+Sketch=1438795 / 3145728 bytes (45%)
+Global variables=77156 / 327680 bytes (23%)
+完整链接成功；未烧录硬件。
+本机测试：LRC、串口半包、实际 MP3 定位对照、顺序/循环/停止及跨页、触摸分发、240x320 绘制边界，通过。
+硬件音频流畅度、触摸校准、云端歌单/歌词和连续播放仍待实测。

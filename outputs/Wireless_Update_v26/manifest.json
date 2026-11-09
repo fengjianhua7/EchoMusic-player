@@ -1,0 +1,12 @@
+{
+  "stm32ApplicationBytes": 466700,
+  "stm32PayloadCRC32": "76585ae1",
+  "stm32PackageSHA256": "5f20933a49094158a3b1c2ded38bce1133951d431db755544d04b0b7fd0044f9",
+  "bootHighestAddress": "0x8007803",
+  "applicationHighestAddress": "0x8079f0b",
+  "calibrationStart": "0x807f800",
+  "esp32ApplicationBytes": 1305808,
+  "esp32SlotBytes": 6291456,
+  "esp32SHA256": "a98e84e2ace9f7ea06d67380d9d0213e03855c0ab13f646ad0aad69d6992d4d2",
+  "esp32FlashBytes": 16777216
+}

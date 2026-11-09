@@ -1,0 +1,11 @@
+v23.0，2026-11-03
+STM32：ARMCC V5.05，0 Error(s), 0 Warning(s)
+Code=42048 RO-data=422296 RW-data=356 ZI-data=38676
+HEX：0x08000000 .. 0x08071620（末地址不含），向量地址有效；未覆盖校准页0x0807F800。
+ESP32：Arduino core3.3.12，ESP32S3 Dev Module，16MB Flash / OPI PSRAM / Huge APP
+Sketch=1444947 / 3145728 bytes (45%)
+Global variables=77380 / 327680 bytes (23%)
+完整链接成功，源码快照校验通过；未烧录硬件。
+本机测试：四点校准拟合/中心拒绝、触摸按下反馈/滑出取消/进度释放、TF实际列表错误与LFN/128限制、存储停止恢复、CBR/TOC定位、实际MP3快速解码对照、240x320显示边界，通过。
+公开歌词接口：HTTP/1.1 /search + /download LRC，用固件代码解析出44行定时歌词；未输出或保存正文作为交付物。
+实际TF卡、触摸位置与校准掉电保存、板上网络歌词与快速定位仍需用户验收。

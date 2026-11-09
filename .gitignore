@@ -1,0 +1,30 @@
+# Keil / GCC 构建产物
+**/Objects/
+**/Listings/
+*.axf
+*.o
+*.hex
+*.bin
+*.map
+*.htm
+*.build_log.htm
+
+# 中间构建目录
+work/*-build/
+work/edge-*-preview*/
+
+# 截图与临时产物
+*.ppm
+*.log
+
+# 工具与安装包
+*.exe
+!work/*.py
+
+# 第三方依赖与环境
+work/audio_dependencies/
+*.pyd
+*.dll
+
+# 浏览器测试配置残留
+work/edge-library-*/
