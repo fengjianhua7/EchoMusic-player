@@ -28,3 +28,7 @@ work/audio_dependencies/
 
 # 浏览器测试配置残留
 work/edge-library-*/
+
+# 本地凭据, 不入库
+config.h
+outputs/**/config.h
