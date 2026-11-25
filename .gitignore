@@ -32,3 +32,6 @@ work/edge-library-*/
 # 本地凭据, 不入库
 config.h
 outputs/**/config.h
+
+# Keil 个人 GUI 状态文件（每台机器一份，不应入库）
+*.uvguix.*
